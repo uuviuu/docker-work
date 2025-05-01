@@ -38,7 +38,7 @@
   chmod -R 775 public/storage
   ```
   
-- Основные команды работы с докером:
+- Основные команды для работы с докером:
   ```
   docker-compose up -d
   docker-compose exec <имя контейнера> fish
