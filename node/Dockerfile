@@ -1,4 +1,4 @@
-FROM node:19
+FROM node:20
 
 RUN apt-get update && apt-get install -y \
         curl \
@@ -18,7 +18,8 @@ RUN npm install -g laravel-echo-server --verbose
 
 USER node
 
-WORKDIR /var/www
+# Если проект один, можно указать папку проекта
+WORKDIR /var/www/smart-plan
 
 EXPOSE 3000
 EXPOSE 8080

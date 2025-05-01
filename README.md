@@ -2,7 +2,7 @@
 
 ### Стек
 
-- Node 19
+- Node 20
 
 ### Установка в репозитории проекта
 
@@ -28,4 +28,23 @@
 - Локальная сборка проекта:
   ```
   composer install
+  php artisan key:generate
+  php artisan jwt:secret
+  php artisan migrate
+  ```
+  ```
+  php artisan storage:link
+  chmod -R 775 storage
+  chmod -R 775 public/storage
+  ```
+  
+- Основные команды работы с докером:
+  ```
+  docker-compose up -d
+  docker-compose exec <имя контейнера> fish
+  
+  docker-compose up -d --build --force-recreate <имя контейнера> - для пересборки контейнера
+  docker ps - показать запущенные контейнеры
+  docker stop $(docker ps -aq) - остановить все
+  docker system prune -a - удалить все неиспользуемые образы и контейнеры
   ```

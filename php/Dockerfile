@@ -22,6 +22,9 @@ RUN apt update && apt install -y \
         vim \
         redis \
         mariadb-client \
+        net-tools \
+        libqt5webkit5 \
+        libqt5webkit5-dev \
     && pecl install yaml \
     && pecl install xdebug \
     && pecl install redis \
@@ -57,13 +60,17 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 ADD php.ini /usr/local/etc/php/conf.d/40-custom.ini
 
+COPY wkhtmltopdf /usr/bin/wkhtmltopdf
+RUN chmod +x /usr/bin/wkhtmltopdf
+
 RUN groupadd --gid 1000 user \
     && useradd --uid 1000 --gid 1000 --shell /usr/bin/fish user \
     && mkdir /home/user \
     && chmod 777 /home/user
 
-USER user
+USER php
 
-WORKDIR /var/www
+# Если проект один, можно указать папку проекта
+WORKDIR /var/www/smart-plan
 
 CMD ["php-fpm"]

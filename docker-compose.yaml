@@ -9,11 +9,6 @@ services:
     ports:
       - "80:80"
       - "81:81"
-      - "82:82"
-      - "83:83"
-      - "84:84"
-      - "85:85"
-      - "86:86"
       - "443:443"
     networks:
       - test
@@ -24,16 +19,6 @@ services:
     volumes:
       - ./php/php.ini:/usr/local/etc/php/conf.d/php.ini
       - ./php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
-      - ./www:/var/www
-    networks:
-      - test
-
-  php8:
-    build: php8
-    container_name: php8
-    volumes:
-      - ./php8/php.ini:/usr/local/etc/php/conf.d/php.ini
-      - ./php8/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
       - ./www:/var/www
     networks:
       - test
@@ -137,6 +122,9 @@ services:
       - "8025:8025"
     networks:
       - test
+
+#  rabbitMq:
+#    3.12.1
 
 volumes:
   db:
