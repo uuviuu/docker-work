@@ -63,10 +63,10 @@ ADD php.ini /usr/local/etc/php/conf.d/40-custom.ini
 COPY wkhtmltopdf /usr/bin/wkhtmltopdf
 RUN chmod +x /usr/bin/wkhtmltopdf
 
-RUN groupadd --gid 1000 user \
-    && useradd --uid 1000 --gid 1000 --shell /usr/bin/fish user \
-    && mkdir /home/user \
-    && chmod 777 /home/user
+RUN groupadd --gid 1000 php \
+    && useradd --uid 1000 --gid 1000 --shell /usr/bin/fish php \
+    && mkdir /home/php \
+    && chmod 777 /home/php
 
 USER php
 
