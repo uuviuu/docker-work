@@ -23,8 +23,8 @@ RUN apt update && apt install -y \
         redis \
         mariadb-client \
         net-tools \
-        libqt5webkit5 \
-        libqt5webkit5-dev \
+        # libqt5webkit5 \
+        # libqt5webkit5-dev \
     && pecl install yaml \
     && pecl install xdebug \
     && pecl install redis \

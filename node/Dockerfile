@@ -14,7 +14,8 @@ COPY --from=spiralscout/roadrunner:2.9.1 /usr/bin/rr /usr/bin/rr
 
 RUN export DOCKER_SCAN_SUGGEST=false
 
-RUN npm install -g laravel-echo-server --verbose
+RUN npm install -g laravel-echo-server --verbose \
+    newman
 
 USER node
 
