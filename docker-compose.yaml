@@ -8,9 +8,6 @@ services:
       - ./logs:/var/log/nginx
     ports:
       - "80:80"
-      - "81:81"
-      - "82:82"
-      - "443:443"
     networks:
       - test
 

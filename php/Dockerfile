@@ -23,6 +23,10 @@ RUN apt update && apt install -y \
         redis \
         mariadb-client \
         net-tools \
+        ghostscript \
+        libxrender1 \
+        libxext6 \
+        libfontconfig1 \
         # libqt5webkit5 \
         # libqt5webkit5-dev \
     && pecl install yaml \
