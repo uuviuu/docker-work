@@ -1,40 +1,35 @@
 FROM php:8.3-fpm
 
 RUN apt update && apt install -y \
-        curl \
-        wget \
-        git \
-        unzip \
-        zip \
-        libxml2-dev \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        libonig-dev \
-        libpng-dev \
-        libwebp-dev \
-        libicu-dev \
-        libpq-dev \
-        libxpm-dev \
-        libvpx-dev \
-        libzip-dev \
-        libyaml-dev \
-        fish \
-        vim \
-        redis \
-        mariadb-client \
-        net-tools \
-        ghostscript \
-        libxrender1 \
-        libxext6 \
-        libfontconfig1 \
-        # libqt5webkit5 \
-        # libqt5webkit5-dev \
+    curl \
+    wget \
+    git \
+    unzip \
+    zip \
+    libxml2-dev \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libonig-dev \
+    libpng-dev \
+    libwebp-dev \
+    libicu-dev \
+    libpq-dev \
+    libxpm-dev \
+    libvpx-dev \
+    libzip-dev \
+    libyaml-dev \
+    fish \
+    vim \
+    mariadb-client \
+    net-tools \
+    ghostscript \
+    libxrender1 \
+    libxext6 \
+    libfontconfig1 \
     && pecl install yaml \
     && pecl install xdebug \
-    && pecl install redis \
     && docker-php-ext-enable yaml\
-    && docker-php-ext-enable xdebug \
-    && docker-php-ext-enable redis
+    && docker-php-ext-enable xdebug
 
 RUN set -eux; \
     docker-php-ext-install soap; \
@@ -51,10 +46,12 @@ RUN set -eux; \
         pgsql \
         pdo_pgsql \
         mysqli \
-        opcache \
         pdo_mysql \
         pcntl \
-        exif
+        exif \
+        opcache
+
+ENV HOME=/home/php
 
 RUN chsh -s /usr/bin/fish
 
@@ -68,13 +65,12 @@ COPY wkhtmltopdf /usr/bin/wkhtmltopdf
 RUN chmod +x /usr/bin/wkhtmltopdf
 
 RUN groupadd --gid 1000 php \
-    && useradd --uid 1000 --gid 1000 --shell /usr/bin/fish php \
-    && mkdir /home/php \
-    && chmod 777 /home/php
+    && useradd --uid 1000 --gid 1000 --shell /usr/bin/fish -m php \
+    && mkdir -p /home/php/.config /home/php/.cache \
+    && chown -R php:php /home/php
 
 USER php
 
-# Если проект один, можно указать папку проекта
 WORKDIR /var/www/smart-plan
 
 CMD ["php-fpm"]

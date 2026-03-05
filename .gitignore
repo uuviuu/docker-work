@@ -7,15 +7,16 @@
 !/logs/.gitkeep
 /logs/*
 
-!/db/initdb/extension-uuid.sql
 /db/initdb/*
-!/db/data/.gitkeep
 /db/data/*
-/db/dumps/*
-!/db/mysql/.gitkeep
 /db/mysql/*
-!/db/clickhouse/.gitkeep
 /db/clickhouse/*
+/db/dumps/*
+!/db/initdb/extension-uuid.sql
+!/db/data/.gitkeep
+!/db/mysql/.gitkeep
+!/db/clickhouse/.gitkeep
+!/db/dumps/.gitignore
 
 /meilisearch/*
 

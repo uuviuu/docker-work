@@ -1,12 +1,12 @@
 FROM node:20
 
 RUN apt-get update && apt-get install -y \
-        curl \
-        git \
-        fish \
-        nano \
-        mc \
-        zsh
+    curl \
+    git \
+    fish \
+    nano \
+    mc \
+    zsh
 
 RUN chsh -s /usr/bin/fish
 
@@ -19,7 +19,6 @@ RUN npm install -g laravel-echo-server --verbose \
 
 USER node
 
-# Если проект один, можно указать папку проекта
 WORKDIR /var/www/smart-plan
 
 EXPOSE 3000
