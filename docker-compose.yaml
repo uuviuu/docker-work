@@ -21,6 +21,8 @@ services:
       - ./php/php.ini:/usr/local/etc/php/conf.d/php.ini
       - ./php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
       - ./www:/var/www
+    ports:
+      - "8080:8080"
     networks:
       - test
 
@@ -28,9 +30,7 @@ services:
     build: node
     container_name: node
     ports:
-      - "8080:8080"
       - "6001:6001"
-      - "8000:8000"
       - "3000:3000"
     stdin_open: true
     tty: true
