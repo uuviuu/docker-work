@@ -30,8 +30,11 @@ services:
     build: node
     container_name: node
     ports:
-      - "6001:6001"
       - "3000:3000"
+      - "8000:8000"
+      - "6001:6001"
+      - "6006:6006"
+      - "5173:5173"
     stdin_open: true
     tty: true
     volumes:

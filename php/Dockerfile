@@ -1,6 +1,6 @@
-FROM php:8.3-fpm
+FROM php:8.4-fpm
 
-RUN apt update && apt install -y \
+RUN apt-get update && apt-get install -y \
     curl \
     wget \
     git \
@@ -26,19 +26,18 @@ RUN apt update && apt install -y \
     libxrender1 \
     libxext6 \
     libfontconfig1 \
-    && pecl install yaml \
-    && pecl install xdebug \
-    && docker-php-ext-enable yaml\
-    && docker-php-ext-enable xdebug
+    && rm -rf /var/lib/apt/lists/*
 
-RUN set -eux; \
-    docker-php-ext-install soap; \
-    docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-xpm --with-webp; \
-    docker-php-ext-configure soap --enable-soap; \
-    docker-php-ext-configure intl; \
-    docker-php-ext-configure zip; \
-    docker-php-ext-install -j "$(nproc)" iconv \
+RUN pecl install yaml xdebug \
+    && docker-php-ext-enable yaml xdebug
+
+RUN docker-php-ext-configure gd \
+        --with-freetype \
+        --with-jpeg \
+        --with-webp \
+    && docker-php-ext-install -j$(nproc) \
         mbstring \
+        bcmath \
         gd \
         intl \
         sockets \
@@ -49,15 +48,15 @@ RUN set -eux; \
         pdo_mysql \
         pcntl \
         exif \
-        opcache
+        opcache \
+        soap
 
 ENV HOME=/home/php
 
 RUN chsh -s /usr/bin/fish
 
 COPY --from=spiralscout/roadrunner:2.9.1 /usr/bin/rr /usr/bin/rr
-
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 ADD php.ini /usr/local/etc/php/conf.d/40-custom.ini
 
