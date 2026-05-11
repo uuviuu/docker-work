@@ -12,7 +12,7 @@ services:
       - "82:82"
       - "83:83"
     networks:
-      - test
+      - smart-plan
 
   php:
     build: php
@@ -24,7 +24,7 @@ services:
     ports:
       - "8080:8080"
     networks:
-      - test
+      - smart-plan
 
   node:
     build: node
@@ -40,7 +40,7 @@ services:
     volumes:
       - ./www:/var/www
     networks:
-      - test
+      - smart-plan
 
   #  mysql:
   #    image: mysql
@@ -57,7 +57,7 @@ services:
   #      - ./db/dumps:/dumps
   #      - ./logs:/var/log/mysql/
   #    networks:
-  #      - test
+  #      - smart-plan
 
   mariadb:
     image: mariadb
@@ -74,7 +74,7 @@ services:
       - ./db/dumps:/dumps
       - ./logs:/var/log/mysql/
     networks:
-      - test
+      - smart-plan
 
 #  postgres:
 #    image: postgres
@@ -90,7 +90,7 @@ services:
 #    ports:
 #      - "5433:5432"
 #    networks:
-#      - test
+#      - smart-plan
 
   redis:
     image: redis
@@ -99,7 +99,7 @@ services:
       - "6380:6379"
     command: ["sh", "-c", "exec redis-server --requirepass \"redis\""]
     networks:
-      - test
+      - smart-plan
 
   meilisearch:
     container_name: meilisearch
@@ -115,7 +115,7 @@ services:
     ports:
       - "7777:7700"
     networks:
-      - test
+      - smart-plan
 
   mailhog:
     image: mailhog/mailhog
@@ -125,7 +125,7 @@ services:
       - "1025:1025"
       - "8025:8025"
     networks:
-      - test
+      - smart-plan
 
 #  rabbitMq:
 #    3.12.1
@@ -134,5 +134,5 @@ volumes:
   db:
 
 networks:
-  test:
+  smart-plan:
     driver: bridge
