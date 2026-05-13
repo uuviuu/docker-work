@@ -1,0 +1,20 @@
+LOAD DATABASE
+    FROM mysql://root:root@mariadb:3306/smart_plan
+    INTO postgresql://postgres:postgres@postgres:5432/postgres
+
+WITH
+    create tables,
+    create indexes,
+    reset sequences,
+    workers = 4,
+    batch rows = 1000,
+    prefetch rows = 1000,
+    disable triggers
+
+SET MySQL PARAMETERS
+    net_read_timeout = '1800',
+    net_write_timeout = '1800'
+
+CAST
+    type tinyint when (= precision 1) to boolean drop typemod,
+    type enum to text drop typemod;

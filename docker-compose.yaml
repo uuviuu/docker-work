@@ -42,6 +42,20 @@ services:
     networks:
       - smart-plan
 
+  pgloader:
+    image: dimitri/pgloader:latest
+    command: ["pgloader", "/migrate.load"]
+    volumes:
+      - ./migrate.load:/migrate.load:ro
+    depends_on:
+      - postgres
+      - mariadb
+    networks:
+      - smart-plan
+    restart: "no"
+    mem_limit: 6g
+    mem_reservation: 2g
+
   #  mysql:
   #    image: mysql
   #    command: --default-authentication-plugin=mysql_native_password
@@ -76,21 +90,25 @@ services:
     networks:
       - smart-plan
 
-#  postgres:
-#    image: postgres
-#    container_name: postgres
-#    environment:
-#      POSTGRES_DB: postgres
-#      POSTGRES_USER: postgres
-#      POSTGRES_PASSWORD: postgres
-#    volumes:
-#      - ./db/postregs:/var/lib/postgresql
-#      - ./db/dumps:/dumps
-#      - ./logs:/var/log/postgresql/
-#    ports:
-#      - "5433:5432"
-#    networks:
-#      - smart-plan
+  postgres:
+    image: postgres
+    container_name: postgres
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./db/postregs:/var/lib/postgresql
+      - ./db/dumps:/dumps
+      - ./logs:/var/log/postgresql/
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+    networks:
+      - smart-plan
 
   redis:
     image: redis
