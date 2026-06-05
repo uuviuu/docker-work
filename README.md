@@ -44,6 +44,4 @@
   docker ps - показать запущенные контейнеры
   docker stop $(docker ps -aq) - остановить все
   docker system prune -a - удалить все неиспользуемые образы и контейнеры
-  
-  docker compose up --build --force-recreate pgloader - запуск контейнера для переезда бд
   ```
