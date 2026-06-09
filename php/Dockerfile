@@ -26,6 +26,7 @@ RUN apt-get update && apt-get install -y \
     libxrender1 \
     libxext6 \
     libfontconfig1 \
+    pgloader \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pecl install yaml xdebug \

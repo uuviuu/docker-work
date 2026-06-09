@@ -11,6 +11,7 @@ services:
       - "81:81"
       - "82:82"
       - "83:83"
+      - "84:84"
     networks:
       - smart-plan
 
@@ -23,6 +24,22 @@ services:
       - ./www:/var/www
     ports:
       - "8080:8080"
+    networks:
+      - smart-plan
+
+  golang:
+    image: golang:1.24-alpine
+    container_name: golang
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./www:/var/www
+    working_dir: /www
+    ports:
+      - "3001:3000"
+    environment:
+      - APP_ENV=development
+      - PORT=3000
     networks:
       - smart-plan
 
