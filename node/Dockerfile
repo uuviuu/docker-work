@@ -28,4 +28,4 @@ EXPOSE 6001
 EXPOSE 6006
 EXPOSE 5173
 
-CMD ["fish"]
+CMD ["node"]

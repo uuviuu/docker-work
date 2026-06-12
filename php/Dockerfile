@@ -73,4 +73,4 @@ USER php
 
 WORKDIR /var/www/smart-plan
 
-CMD ["fish"]
+CMD ["php-fpm"]
