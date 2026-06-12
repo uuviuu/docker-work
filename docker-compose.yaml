@@ -18,6 +18,8 @@ services:
   php:
     build: php
     container_name: php
+    tty: true
+    stdin_open: true
     volumes:
       - ./php/php.ini:/usr/local/etc/php/conf.d/php.ini
       - ./php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
@@ -28,32 +30,29 @@ services:
       - smart-plan
 
   golang:
-    image: golang:1.24-alpine
+    build: golang
     container_name: golang
     tty: true
     stdin_open: true
     volumes:
       - ./www:/var/www
-    working_dir: /www
+    working_dir: /var/www
     ports:
       - "3001:3000"
-    environment:
-      - APP_ENV=development
-      - PORT=3000
     networks:
       - smart-plan
 
   node:
     build: node
     container_name: node
+    tty: true
+    stdin_open: true
     ports:
       - "3000:3000"
       - "8000:8000"
       - "6001:6001"
       - "6006:6006"
       - "5173:5173"
-    stdin_open: true
-    tty: true
     volumes:
       - ./www:/var/www
     networks:
