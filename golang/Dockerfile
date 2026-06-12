@@ -1,4 +1,4 @@
-FROM golang:1.24
+FROM golang:1.25
 
 RUN apt-get update && apt-get install -y \
     curl \
@@ -14,7 +14,6 @@ RUN chsh -s /usr/bin/fish
 COPY --from=spiralscout/roadrunner:2.9.1 /usr/bin/rr /usr/bin/rr
 
 RUN export DOCKER_SCAN_SUGGEST=false
-
 
 RUN groupadd --gid 1000 golang \
     && useradd --uid 1000 --gid 1000 --shell /usr/bin/fish -m golang \
