@@ -1,13 +1,15 @@
 LOAD DATABASE
-    FROM mysql://root:root@mariadb:3306/smart_plan
+    FROM mysql://root:root@mariadb:3306/<db-name>
     INTO postgresql://postgres:postgres@postgres:5432/postgres
 
 WITH
-    create tables,
-    create indexes,
+    data only,
+    create no tables,
+    create no indexes,
+    no foreign keys,
     reset sequences,
     workers = 4,
-    batch rows = 1000,
+    batch rows = 500,
     prefetch rows = 1000,
     disable triggers
 

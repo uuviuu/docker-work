@@ -45,3 +45,15 @@
   docker stop $(docker ps -aq) - остановить все
   docker system prune -a - удалить все неиспользуемые образы и контейнеры
   ```
+
+### Переезд на postgres (вне докера)
+```
+sudo apt update
+sudo apt install pgloader
+pgloader --version
+
+Дальше в postgres создается схема по названию бд в mariadb
+В .env меняется подключение на postgres
+php artisan migrate
+pgloader --debug migrate.load
+```
