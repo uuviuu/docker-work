@@ -95,6 +95,7 @@ services:
   postgres:
     image: postgis/postgis:17-3.5
     container_name: postgres
+    platform: linux/amd64
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres

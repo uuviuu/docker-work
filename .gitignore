@@ -10,6 +10,7 @@
 /db/initdb/*
 /db/data/*
 /db/mysql/*
+/db/postgres/*
 /db/clickhouse/*
 /db/dumps/*
 !/db/initdb/extension-uuid.sql
