@@ -13,7 +13,7 @@ services:
       - "83:83"
       - "84:84"
     networks:
-      - smart-plan
+      - work
 
   php:
     build: php
@@ -27,7 +27,7 @@ services:
     ports:
       - "8080:8080"
     networks:
-      - smart-plan
+      - work
 
   golang:
     build: golang
@@ -40,7 +40,7 @@ services:
     ports:
       - "3001:3000"
     networks:
-      - smart-plan
+      - work
 
   node:
     build: node
@@ -56,24 +56,7 @@ services:
     volumes:
       - ./www:/var/www
     networks:
-      - smart-plan
-
-  #  mysql:
-  #    image: mysql
-  #    command: --default-authentication-plugin=mysql_native_password
-  #    container_name: mysql
-  #    environment:
-  #      MYSQL_ROOT_PASSWORD: root
-  #      MYSQL_DATABASE: mysql
-  #    ports:
-  #      - "3308:3306"
-  #    volumes:
-  #      - ./db/initdb/:/docker-entrypoint-initdb.d/
-  #      - ./db/mysql:/var/lib/mysql
-  #      - ./db/dumps:/dumps
-  #      - ./logs:/var/log/mysql/
-  #    networks:
-  #      - smart-plan
+      - work
 
   mariadb:
     image: mariadb
@@ -90,7 +73,7 @@ services:
       - ./db/dumps:/dumps
       - ./logs:/var/log/mysql/
     networks:
-      - smart-plan
+      - work
 
   postgres:
     image: postgis/postgis:17-3.5
@@ -111,7 +94,7 @@ services:
         limits:
           memory: 4G
     networks:
-      - smart-plan
+      - work
 
   redis:
     image: redis
@@ -120,7 +103,7 @@ services:
       - "6380:6379"
     command: ["sh", "-c", "exec redis-server --requirepass \"redis\""]
     networks:
-      - smart-plan
+      - work
 
   meilisearch:
     container_name: meilisearch
@@ -136,7 +119,7 @@ services:
     ports:
       - "7777:7700"
     networks:
-      - smart-plan
+      - work
 
   mailhog:
     image: mailhog/mailhog
@@ -146,14 +129,11 @@ services:
       - "1025:1025"
       - "8025:8025"
     networks:
-      - smart-plan
-
-#  rabbitMq:
-#    3.12.1
+      - work
 
 volumes:
   db:
 
 networks:
-  smart-plan:
+  work:
     driver: bridge

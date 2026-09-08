@@ -20,7 +20,7 @@ RUN npm install -g \
 
 USER node
 
-WORKDIR /var/www/smart-plan
+WORKDIR /var/www
 
 EXPOSE 3000
 EXPOSE 8000

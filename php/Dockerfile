@@ -1,42 +1,23 @@
-FROM php:8.4-fpm
+FROM php:8.5-fpm
 
-RUN apt-get update && apt-get install -y \
-    curl \
-    wget \
-    git \
-    unzip \
-    zip \
-    libxml2-dev \
-    libfreetype6-dev \
-    libjpeg62-turbo-dev \
-    libonig-dev \
-    libpng-dev \
-    libwebp-dev \
-    libicu-dev \
-    libpq-dev \
-    libxpm-dev \
-    libvpx-dev \
-    libzip-dev \
-    libyaml-dev \
-    fish \
-    vim \
-    mariadb-client \
-    net-tools \
-    ghostscript \
-    libxrender1 \
-    libxext6 \
-    libfontconfig1 \
-    pgloader \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        curl \
+        wget \
+        git \
+        unzip \
+        zip \
+        fish \
+        vim \
+        mariadb-client \
+        net-tools \
+        ghostscript \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pecl install yaml xdebug \
-    && docker-php-ext-enable yaml xdebug
+ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
-RUN docker-php-ext-configure gd \
-        --with-freetype \
-        --with-jpeg \
-        --with-webp \
-    && docker-php-ext-install -j$(nproc) \
+RUN install-php-extensions \
+        yaml \
+        xdebug \
         mbstring \
         bcmath \
         gd \
@@ -52,25 +33,20 @@ RUN docker-php-ext-configure gd \
         opcache \
         soap
 
-ENV HOME=/home/php
-
-RUN chsh -s /usr/bin/fish
-
-COPY --from=spiralscout/roadrunner:2.9.1 /usr/bin/rr /usr/bin/rr
+COPY --from=ghcr.io/roadrunner-server/roadrunner:2025.1 /usr/bin/rr /usr/bin/rr
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-ADD php.ini /usr/local/etc/php/conf.d/40-custom.ini
+COPY php.ini /usr/local/etc/php/conf.d/40-custom.ini
 
-COPY wkhtmltopdf /usr/bin/wkhtmltopdf
-RUN chmod +x /usr/bin/wkhtmltopdf
+ENV HOME=/home/php
 
 RUN groupadd --gid 1000 php \
     && useradd --uid 1000 --gid 1000 --shell /usr/bin/fish -m php \
     && mkdir -p /home/php/.config /home/php/.cache \
-    && chown -R php:php /home/php
+    && chown -R php:php /home/php \
+    && chsh -s /usr/bin/fish php
 
 USER php
-
-WORKDIR /var/www/smart-plan
+WORKDIR /var/www
 
 CMD ["php-fpm"]
