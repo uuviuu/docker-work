@@ -36,7 +36,15 @@ services:
     stdin_open: true
     volumes:
       - ./www:/var/www
-    working_dir: /var/www
+    working_dir: /var/www/golang-api
+    command: ["go", "run", "./cmd/api"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "--max-time", "2", "http://127.0.0.1:3000/healthz"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 60s
     ports:
       - "3001:3000"
     networks:
