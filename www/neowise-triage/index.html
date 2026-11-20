@@ -22,14 +22,48 @@
   <script type="module">
     const form = document.querySelector("form");
     const result = document.querySelector("#result");
+    const topics = { delivery: "Доставка", pricing: "Стоимость", other: "Другое" };
+    let latest = 0;
+    let pending;
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      const reply = await fetch("/api/triage", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: document.querySelector("#message").value }),
-      });
-      result.textContent = JSON.stringify(await reply.json(), null, 2);
+      const id = ++latest;
+      pending?.abort();
+      const controller = new AbortController();
+      pending = controller;
+      result.textContent = "";
+      const text = document.querySelector("#message").value;
+      if (!text.trim()) {
+        result.textContent = "Введите текст заявки.";
+        return;
+      }
+      result.textContent = "Разбираем заявку...";
+      const timer = setTimeout(() => controller.abort(), 3000);
+      try {
+        const reply = await fetch("/api/triage", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text }),
+          signal: controller.signal,
+        });
+        const data = await reply.json();
+        if (id !== latest) return;
+        if (reply.status === 400 && data?.status === "invalid_input") {
+          result.textContent = "Введите текст заявки.";
+        } else if (reply.ok && data?.status === "ready" &&
+                   Object.hasOwn(topics, data.topic) &&
+                   typeof data.draft === "string" && data.draft.trim()) {
+          result.textContent = `Тема: ${topics[data.topic]}\n\nЧерновик ответа:\n${data.draft}`;
+        } else {
+          throw new Error("Manual review required");
+        }
+      } catch {
+        if (id === latest) {
+          result.textContent = "Не удалось разобрать заявку автоматически. Разберите ее вручную и подготовьте ответ клиенту.";
+        }
+      } finally {
+        clearTimeout(timer);
+      }
     });
   </script>
 </body>
